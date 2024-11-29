@@ -1,0 +1,75 @@
+okx:
+  trading_mode: "demo"
+  api_key: "8d5f45b0-c7d8-4290-9415-4fbb28d38da1"
+  secret_key: "3CB219EFCF31CA561D669C2CCB72D675"
+  passphrase: "Lx@13181061908"
+  base_url: "https://www.okx.com"
+  demo_base_url: "https://www.okx.com"
+
+data_collection:
+  websocket:
+    ping_interval: 20
+    reconnect_attempts: 3
+    message_timeout: 5.0
+    heartbeat_interval: 30
+  symbols:
+    - BTC-USDT
+    - ETH-USDT
+    - SOL-USDT
+  channels:
+    - trades
+    - books
+    - tickers
+  cache:
+    redis_host: "localhost"
+    redis_port: 6379
+    expiry_time: 3600
+
+signal_generation:
+  indicators:
+    rsi:
+      period: 14
+      overbought: 70
+      oversold: 30
+    macd:
+      fast_period: 12
+      slow_period: 26
+      signal_period: 9
+    bollinger_bands:
+      period: 20
+      std_dev: 2
+  model:
+    type: "lstm"
+    layers: 2
+    hidden_size: 128
+    dropout: 0.2
+  training:
+    batch_size: 64
+    learning_rate: 0.001
+    epochs: 100
+  distributed:
+    num_gpus: -1  # Auto-detect
+    master_addr: "localhost"
+    master_port: "12355"
+    backend: "nccl"
+
+funds_management:
+  allocation:
+    max_position_size: 0.8
+    min_free_margin: 0.2
+    kelly_fraction: 0.5
+  leverage:
+    max_leverage: 20
+    min_leverage: 1
+    volatility_threshold: 0.5
+    base_leverage: 5
+  margin:
+    initial_ratio: 0.1
+    maintenance_ratio: 0.05
+    liquidation_buffer: 0.01
+    warning_ratio: 1.5
+    danger_ratio: 1.2
+    critical_ratio: 1.1
+    min_available_margin: 1000
+    max_leverage_ratio: 0.8
+    position_limit_ratio: 0.4
